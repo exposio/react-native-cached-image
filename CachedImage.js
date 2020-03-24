@@ -140,11 +140,9 @@ class CachedImage extends React.Component {
     }
 
     handleConnectivityChange(state) {
-        if (state.isConnected) {
-            this.safeSetState({
-                networkAvailable: state
-            });
-        }
+        this.safeSetState({
+            networkAvailable: state.isConnected
+        });
     }
 
     processSource(source) {
