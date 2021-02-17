@@ -40,7 +40,7 @@ function getImageProps(props) {
     return _.omit(props, ['source', 'defaultSource', 'fallbackSource', 'LoadingIndicator', 'activityIndicatorProps', 'style', 'useQueryParamsInCacheKey', 'renderImage', 'resolveHeaders']);
 }
 
-const CACHED_IMAGE_REF = 'cachedImage';
+let CACHED_IMAGE_REF = null;
 
 class CachedImage extends React.Component {
 
@@ -53,7 +53,7 @@ class CachedImage extends React.Component {
     };
 
     static defaultProps = {
-        renderImage: props => (<ImageBackground imageStyle={props.style} ref={CACHED_IMAGE_REF} {...props} />),
+        renderImage: props => (<ImageBackground imageStyle={props.style} ref={(ref) => CACHED_IMAGE_REF = ref} {...props} />),
         activityIndicatorProps: {},
     };
 
