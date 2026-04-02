@@ -7,6 +7,7 @@ const ReactNative = require('react-native');
 const PropTypes = require('prop-types');
 
 const ImageCacheManagerOptionsPropTypes = require('./ImageCacheManagerOptionsPropTypes');
+const ImageCacheContext = require('./ImageCacheContext');
 
 const flattenStyle = ReactNative.StyleSheet.flatten;
 
@@ -57,9 +58,7 @@ class CachedImage extends React.Component {
         activityIndicatorProps: {},
     };
 
-    static contextTypes = {
-        getImageCacheManager: PropTypes.func,
-    };
+    static contextType = ImageCacheContext;
 
     constructor(props) {
         super(props);
@@ -123,11 +122,10 @@ class CachedImage extends React.Component {
     }
 
     getImageCacheManager() {
-        // try to get ImageCacheManager from context
-        if (this.context && this.context.getImageCacheManager) {
-            return this.context.getImageCacheManager();
+        if (this.context) {
+            return this.context;
         }
-        // create a new one if context is not available
+
         const options = this.getImageCacheManagerOptions();
         return ImageCacheManager(options);
     }

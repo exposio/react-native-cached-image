@@ -7,6 +7,7 @@ const ReactNative = require('react-native');
 const PropTypes = require('prop-types');
 
 const ImageCacheManagerOptionsPropTypes = require('./ImageCacheManagerOptionsPropTypes');
+const ImageCacheContext = require('./ImageCacheContext');
 
 const ImageCacheManager = require('./ImageCacheManager');
 const ImageCachePreloader = require('./ImageCachePreloader');
@@ -32,10 +33,6 @@ class ImageCacheProvider extends React.Component {
         onPreloadComplete: _.noop,
     };
 
-    static childContextTypes = {
-        getImageCacheManager: PropTypes.func,
-    };
-
     constructor(props) {
         super(props);
 
@@ -43,15 +40,6 @@ class ImageCacheProvider extends React.Component {
         this.getImageCacheManager = this.getImageCacheManager.bind(this);
         this.preloadImages = this.preloadImages.bind(this);
 
-    }
-
-    getChildContext() {
-        const self = this;
-        return {
-            getImageCacheManager() {
-                return self.getImageCacheManager();
-            }
-        };
     }
 
     UNSAFE_componentWillMount() {
@@ -86,7 +74,11 @@ class ImageCacheProvider extends React.Component {
     }
 
     render() {
-        return React.Children.only(this.props.children);
+        return (
+            <ImageCacheContext.Provider value={this.getImageCacheManager()}>
+                {React.Children.only(this.props.children)}
+            </ImageCacheContext.Provider>
+        );
     }
 
 }
