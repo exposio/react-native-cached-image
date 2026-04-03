@@ -38,6 +38,7 @@
   "files": [
     "index.js",
     "CachedImage.js",
+    "ImageCacheContext.js",
     "ImageCacheProvider.js",
     "ImageCacheManager.js",
     "ImageCacheManagerOptionsPropTypes.js",
